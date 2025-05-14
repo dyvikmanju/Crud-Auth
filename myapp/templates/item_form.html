@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if item %}Edit{% else %}Create{% endif %} Item</title>
+</head>
+<body>
+    <h1>{% if item %}Edit{% else %}Create{% endif %} Item</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{% if item %}{{ item.name }}{% endif %}" required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required>{% if item %}{{ item.description }}{% endif %}</textarea>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'item_list' %}">Cancel</a>
+</body>
+</html>

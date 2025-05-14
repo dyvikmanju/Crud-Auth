@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Items</title>
+</head>
+<body>
+    <div style="float: right;">
+        {% if user.is_authenticated %}
+            Hello, {{ user.username }}! 
+            <a href="{% url 'profile' %}">Profile</a> |
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> |
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+    
+    <h1>Your Items</h1>
+    
+    {% if user.is_authenticated %}
+        <a href="{% url 'item_create' %}">Add New Item</a>
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a> to manage your items.</p>
+    {% endif %}
+    
+    {% if items %}
+        <ul>
+            {% for item in items %}
+                <li>
+                    {{ item.name }} - {{ item.description }}
+                    <a href="{% url 'item_update' item.pk %}">Edit</a>
+                    <a href="{% url 'item_delete' item.pk %}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No items found.</p>
+        {% if not user.is_authenticated %}
+            <p>Your items will appear here after you login.</p>
+        {% endif %}
+    {% endif %}
+
+    {% if message %}
+    <div class="welcome-message" style="background: lightblue; padding: 10px;">
+        {{ message }}
+    </div>
+{% endif %}
+</body>
+</html>
